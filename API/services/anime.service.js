@@ -1,17 +1,10 @@
-const response = require('express')
-const mysql = require('mysql')
+const mongoose = require('mongoose');
+const Anime = require('./../models/Anime')
 
 class AnimeService {
 
     constructor() {
-        this.connection = mysql.createConnection({
-            host: 'localhost',
-            user : 'root',
-            password : 'root',
-            database : 'eclipseanime'
-        })
-
-        this.connection.connect()
+        this.connection = mongoose.connect('mongodb+srv://Hana897TRX:MThelegend1-@eclipseanime.ijyab.mongodb.net/EclipseAnimeDataBase?retryWrites=true&w=majority');
     }
 
     getTop10Anime() {
@@ -21,17 +14,27 @@ class AnimeService {
     }
 
     async saveAnime(animeData) {
-        console.table(animeData)
-        const query = `INSERT INTO Anime (animeName, animeTypeId, coverUrl, splashArtUrl, animeDescription,publishDate, likes, creators) VALUES ('${animeData.animeName}',${animeData.animeTypeId},'${animeData.coverUrl}','${animeData.splashArtUrl}','${animeData.animeDescription}', '2021-01-01',${animeData.likes},'${animeData.creators}')`
-        console.log(query)
-        this.connection.query(query,(error, results, fields) => {
-                console.table(error, results)
-                if(error) 
-                    return { 'error' : error }
-                else 
-                    return { 'results' : results }
-            }
-        )
+        console.error("RUNNING")
+        let animeRegister = new Anime({
+            animeName : animeData.animeName,
+            animeTypeId : 1,
+            coverUrl : animeData.coverUrl,
+            splashArtUrl : animeData.splashArtUrl,
+            animeDescription : animeData.animeDescription,
+            publishDate : animeData.publishDate || Date.now(),
+            status : "finished",
+            likes : 0,
+            creators : "No data"
+        })
+
+        console.log(animeRegister)
+
+        animeRegister.save((error, anime) => {
+            if(error) return console.error(error)
+            console.log(anime.animeName + "Anime saved")
+        })
+
+        console.log(response)
     }
 
     async searchAnimeId(animeName) {
