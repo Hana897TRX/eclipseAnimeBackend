@@ -1,3 +1,4 @@
+const { json } = require('express');
 const express = require('express');
 const AnimeService = require('../services/scrapingAnime.service');
 const router = express.Router();
@@ -8,15 +9,19 @@ router.get('/', (req, res) => {
     res.send('welcome to scraping service')
 })
 
-router.post('/flv', async (req, res) => {
-    const url = req.body.url
-    if(url) {
+router.post('/getAnime', async (req, res) => {
+    const animeName = req.query.animeName
+    console.log(`AnimeName : ${animeName}`)
+    if(animeName) {
         console.log('getting data')
-        const data = await service.searchAnime(url)
+        const data = await service.searchAnime(animeName)
+        res.status(200).send({
+            data : data
+        })
     }
     else {
         res.json({
-            error : 'Url found'
+            error : 'Error'
         })
     }
 })

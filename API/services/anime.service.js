@@ -7,7 +7,7 @@ class AnimeService {
         this.connection = mysql.createConnection({
             host: 'localhost',
             user : 'root',
-            password : '',
+            password : 'root',
             database : 'eclipseanime'
         })
 

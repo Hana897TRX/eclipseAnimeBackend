@@ -2,8 +2,12 @@ DROP DATABASE IF EXISTS eclipseanime;
 CREATE DATABASE IF NOT EXISTS EclipseAnime;
 USE EclipseAnime;
 
+-- USE ONLY FOR TESTING
+SET FOREIGN_KEY_CHECKS=0;
+
+DROP TABLE IF EXISTS AnimeTypes;
 CREATE TABLE IF NOT EXISTS AnimeTypes(
-	idType INT NOT NULL auto_increment,
+	idType INT auto_increment,
     animeType VARCHAR(50),
     
     PRIMARY KEY (idType)
@@ -61,10 +65,15 @@ CREATE TABLE IF NOT EXISTS Episodes(
     
     PRIMARY KEY (idEpisode),
     FOREIGN KEY (animeId) REFERENCES Anime(idAnime),
-    FOREIGN KEY (episodeLanguageId) REFERENCES AnimeLanguage(idLanguage)
+    FOREIGN KEY (episodeLanguageId) REFERENCES Languages(idLanguage)
 );
 
 SELECT * FROM ANIME;
+
+INSERT INTO AnimeTypes VALUES ("SERIE");
+INSERT INTO AnimeTypes VALUES ("OVA");
+INSERT INTO AnimeTypes VALUES ("MOVIE");
+
 INSERT INTO Anime(
 	animeName,
 	animeTypeId,
