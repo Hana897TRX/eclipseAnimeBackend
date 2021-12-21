@@ -4,6 +4,7 @@ USE EclipseAnime;
 
 -- USE ONLY FOR TESTING
 SET FOREIGN_KEY_CHECKS=0;
+SET FOREIGN_KEY_CHECKS=1;
 
 DROP TABLE IF EXISTS AnimeTypes;
 CREATE TABLE IF NOT EXISTS AnimeTypes(
@@ -20,8 +21,8 @@ CREATE TABLE IF NOT EXISTS Anime(
     animeTypeId INT NOT NULL,
     coverUrl VARCHAR(255) NOT NULL,
     splashArtUrl VARCHAR(255) NULL,
-    animeDescription VARCHAR(255) NULL,
-    publishDate DATE NOT NULL,
+    animeDescription TEXT NULL,
+    publishDate DATE DEFAULT NULL,
     likes INT NOT NULL,
     creators VARCHAR(255) NOT NULL,
     
@@ -60,7 +61,7 @@ CREATE TABLE IF NOT EXISTS Episodes(
 	animeId INT NOT NULL,
     episodeNumber INT NOT NULL,
     episodeLength VARCHAR(10),
-    episodeCoverUrl VARCHAR(255),
+    episodeCoverUrl VARCHAR(500),
     episodeLanguageId INT NOT NULL,
     
     PRIMARY KEY (idEpisode),
@@ -70,9 +71,9 @@ CREATE TABLE IF NOT EXISTS Episodes(
 
 SELECT * FROM ANIME;
 
-INSERT INTO AnimeTypes VALUES ("SERIE");
-INSERT INTO AnimeTypes VALUES ("OVA");
-INSERT INTO AnimeTypes VALUES ("MOVIE");
+INSERT INTO AnimeTypes VALUES (0, "SERIE");
+INSERT INTO AnimeTypes VALUES (0, "OVA");
+INSERT INTO AnimeTypes VALUES (0, "MOVIE");
 
 INSERT INTO Anime(
 	animeName,
@@ -82,4 +83,6 @@ INSERT INTO Anime(
     animeDescription,
     publishDate,
     likes,
-    creators) VALUES ( "Kimetsu no Yaiba", 1, "asdasd", "asdasd", "Hello hello", "2021/09/11", 0, "a" )
+    creators) VALUES ( "Kimetsu no Yaiba", 1, "asdasd", "asdasd", "Hello hello", null, 0, "a" );
+
+INSERT INTO Anime (animeName, animeTypeId, coverUrl, splashArtUrl, animeDescription,publishDate, likes, creators) VALUES ('Citrus',1,'https://cdn.jkanime.net/assets/images/animes/image/citrus.jpg','https://cdn.jkanime.net/assets/images/animes/thumbnail/citrus.jpg','Yuzu es una chica alegre y activa que se traslada a la ciudad junto a su madre con la intención de echarse novio y vivir la vida en un nuevo instituto. Sin embargo, todos sus planes se verán frustrados y terminará asistiendo a un colegio sólo de chicas. Allí conocerá a Mei, la seria y fría Presidenta del Consejo de Estudiantes que además resulta ser su hermanastra. Yuzu y Mei tendrán que convivir juntas, aunque en el proceso puede que comiencen a despertar en ellas sentimientos prohibidos...',null,0,'No information')
