@@ -1,6 +1,6 @@
 const fetch = require('node-fetch');
 const cheerio = require('cheerio')
-const { hostname } = require('os')
+const AnimeService = require('../services/anime.service')
 
 class ScrappingAnime {
 
@@ -8,16 +8,39 @@ class ScrappingAnime {
         this.baseUrlSearch = "https://jkanime.net/ajax/ajax_search?q="
     }
     
-    async searchAnime(animeName) {
+    async searchAnime(animeName, command) {
         console.log(animeName)
         const url = this.baseUrlSearch + animeName
 
         let response = await fetch(url)
         let data = await response.json()
-
+        
         if(data) {
-            console.log(data["animes"][0])
-            return data["animes"][0]
+            console.log(`DEBUG DATA`, data["animes"][0])
+            let animeRegisterData = {
+                animeName : data["animes"][0].title,
+                animeTypeId : 1,
+                coverUrl : data["animes"][0].image,
+                splashArtUrl : data["animes"][0].thumbnail,
+                animeDescription : data["animes"][0].synopsis,
+                publishDate : data["animes"][0].startdate || null,
+                likes : 0,
+                creators : 'No information'
+            }
+
+            console.log(animeRegisterData)
+
+            if(command == 'register') { // will register the data into the database
+                let service = new AnimeService()
+
+                let responseRegister = service.saveAnime(animeRegisterData)
+
+                return { action : command, register : responseRegister, anime : animeRegisterData }
+            }
+            else {
+                return { action : command, anime : animeRegisterData }
+            }
+            
         }
         else {
             console.log("Anime not found")

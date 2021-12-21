@@ -11,10 +11,14 @@ router.get('/', (req, res) => {
 
 router.post('/getAnime', async (req, res) => {
     const animeName = req.query.animeName
-    console.log(`AnimeName : ${animeName}`)
+    const command = req.query.command || 'show'
+
+    console.log(`AnimeName : ${animeName}`) // Log
+    
     if(animeName) {
-        console.log('getting data')
-        const data = await service.searchAnime(animeName)
+        console.log('getting data') // Log
+
+        const data = await service.searchAnime(animeName, command)
         res.status(200).send({
             data : data
         })

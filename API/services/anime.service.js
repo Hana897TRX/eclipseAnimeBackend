@@ -22,19 +22,9 @@ class AnimeService {
 
     async saveAnime(animeData) {
         console.table(animeData)
-        const query = `INSERT INTO Anime (animeName, animeTypeId, coverUrl, splashArtUrl, animeDescription,publishDate, likes, creators) VALUES (?,?,?,?,?,?,?,?)`
-
-        this.connection.query(
-            query, [ 
-                animeData.animeName, 
-                animeData.animeTypeId, 
-                animeData.coverUrl, 
-                animeData.splashArtUrl,
-                animeData.animeDescription,
-                animeData.publishDate,
-                animeData.likes,
-                animeData.creators
-            ], (error, results, fields) => {
+        const query = `INSERT INTO Anime (animeName, animeTypeId, coverUrl, splashArtUrl, animeDescription,publishDate, likes, creators) VALUES ('${animeData.animeName}',${animeData.animeTypeId},'${animeData.coverUrl}','${animeData.splashArtUrl}','${animeData.animeDescription}', '2021-01-01',${animeData.likes},'${animeData.creators}')`
+        console.log(query)
+        this.connection.query(query,(error, results, fields) => {
                 console.table(error, results)
                 if(error) 
                     return { 'error' : error }
