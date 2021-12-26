@@ -4,6 +4,7 @@ const port = 5000
 const routerApi = require('./routers')
 
 app.use(express.json())
+app.use(express.urlencoded({ extended: true }));
 
 app.get('/', (req, res) => {
     res.send('EclipseAPI Working')
