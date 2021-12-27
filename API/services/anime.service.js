@@ -47,7 +47,7 @@ class AnimeService {
               {
                 episodeNumber: episode.episodeNumber,
                 episodeImgPath: episode.episodeImgPath,
-                episodeUrl: episode.episodeImgPath,
+                episodeUrl: episode.episodeUrl,
                 episodeDate: episode.episodeDate,
               },
             ],
@@ -78,7 +78,7 @@ class AnimeService {
           episodes: {
             episodeNumber: episode.episodeNumber,
             episodeImgPath: episode.episodeImgPath,
-            episodeUrl: episode.episodeImgPath,
+            episodeUrl: episode.episodeUrl,
             episodeDate: episode.episodeDate,
           },
         });
