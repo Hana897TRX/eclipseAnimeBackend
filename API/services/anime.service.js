@@ -10,19 +10,33 @@ class AnimeService {
   }
 
   getTop10Anime() {
-    const top10Anime = ```
-        SELECT *
-        ```;
+    // TODO
   }
 
-  async lastEpisodes() {}
+  async lastEpisodes() {
+    let episodes = await Episode.aggregate([{ $limit : 20 }]).sort({
+      lastUpdate: -1,
+    }).exec()
+
+    if(episodes) {
+        return {
+            message : 'sucess',
+            data : episodes
+        }
+    }
+    else {
+        return {
+            error : 'error',
+        }
+    }
+  }
 
   async saveEpisode(episode, animeName) {
-    let register = await Episode.find({ 
-        $and : [
-            { animeName: animeName },
-            { episodesLanguage : episode.episodeLanguage }
-        ]
+    let register = await Episode.find({
+      $and: [
+        { animeName: animeName },
+        { episodesLanguage: episode.episodeLanguage },
+      ],
     }).exec();
     if (register.length > 0) {
       let result = await Episode.updateOne(
@@ -38,7 +52,7 @@ class AnimeService {
               },
             ],
           },
-          lastUpdate : Date.now()
+          lastUpdate: Date.now(),
         }
       ).exec();
 
@@ -54,13 +68,13 @@ class AnimeService {
         };
       }
     } else {
-      let anime = await Anime.find({ animeName: animeName }).exec()
+      let anime = await Anime.find({ animeName: animeName }).exec();
       if (anime.length > 0) {
         let newEpisodeRecord = new Episode({
           animeName: animeName,
           animeId: anime._id,
-          lastUpdate : Date.now(),
-          episodesLanguage : episode.episodeLanguage,
+          lastUpdate: Date.now(),
+          episodesLanguage: episode.episodeLanguage,
           episodes: {
             episodeNumber: episode.episodeNumber,
             episodeImgPath: episode.episodeImgPath,
@@ -69,7 +83,7 @@ class AnimeService {
           },
         });
 
-        let result = await Episode.insertMany(newEpisodeRecord)
+        let result = await Episode.insertMany(newEpisodeRecord);
 
         if (result) {
           return {
@@ -122,44 +136,24 @@ class AnimeService {
     };
   }
 
-  async searchAnimeId(animeName) {
-    const query = `
-            SELECT idAnime 
-            FROM Anime 
-            WHERE animeName LIKE ?
-        `;
-    this.connection.query(query, [animeName], (error, results, fields) => {
-      if (error) return { error: "Anime not found" };
-      else {
-        return {
-          id: results,
-          data: fields,
-        };
-      }
-    });
-  }
-
-  async saveChapterData(animeId, chapterData) {
-    const data = JSON.parse(chapterData);
-
-    const saveAnimeData = `INSERT INTO Episodes (
-            animeId, 
-            episodeNumber, 
-            episodeLength, 
-            episodeCoverUrl, 
-            episodeLanguageId
-            ) VALUES (?, ?, ?, ?, ?)
-        `;
-
-    for (let i = 0; i < data.length; i++) {
-      this.connection.query(
-        saveAnimeData,
-        [animeId, chapterData[i].number, "24.0m", "na", 1],
-        (error, results, fields) => {
-          if (error) return { error: "Error while inserting data" };
-          else return { success: results, fields: fields };
+  async searchByName(animeName) {
+    let animes = await Anime.aggregate({
+        $match : {
+            animeName : animeName
         }
-      );
+    }).exec()
+
+    if(animes) {
+        return {
+            message : 'success',
+            data : animes
+        }
+    }
+    else {
+        return {
+            message : 'success',
+            data : []
+        }
     }
   }
 }

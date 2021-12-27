@@ -50,17 +50,7 @@ router.post('/saveEpisodes', async (req, res) => {
 router.get('/lastEpisodes', async (req, res) => {
     const response = await service.lastEpisodes()
 
-    if(response) {
-        res.status(201).json({
-            'message' : 'success',
-            'data' : response
-        })
-    }
-    else {
-        res.status(501).json({
-            'error' : response
-        })
-    }
+    res.status(201).send(response)
 })
 
 module.exports = router
