@@ -9,11 +9,19 @@ class ScrappingAnime {
     }
     
     async searchAnime(animeName, command) {
+        let alternaTitle = ""
         console.log(animeName)
         const url = this.baseUrlSearch + animeName
 
         let response = await fetch(url)
         let data = await response.json()
+
+        try {
+            alternaTitle = data["animes"][0]["altertitles"][0]["title"]
+        }
+        catch {
+            alternaTitle = ""
+        }
         
         if(data) {
             console.log(`DEBUG DATA`, data["animes"][0])
@@ -23,7 +31,8 @@ class ScrappingAnime {
                 coverUrl : data["animes"][0].image,
                 splashArtUrl : data["animes"][0].thumbnail,
                 animeDescription : data["animes"][0].synopsis,
-                publishDate : data["animes"][0].startdate || null,
+                publishDate : data["animes"][0].startdate || data["animes"][0].timestamp,
+                alternaTitle : alternaTitle,
                 likes : 0,
                 creators : 'No information'
             }
