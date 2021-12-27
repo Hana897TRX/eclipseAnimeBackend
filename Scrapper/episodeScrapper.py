@@ -4,12 +4,21 @@ import selenium
 from selenium.webdriver.common.by import By
 import requests
 
+def refactorAnimeName(animeName) :
+    temp = animeName.replace(" ", "-")
+    temp = temp.replace(";", "-")
+    temp = temp.replace(":", "")
+
+    print(temp)
+
+    return temp
+
 episodeNumber = 0
 episodeLanguage = "jp-es"
 episodeUrl = ""
 episodeDate = ""
 episodeImgPath = ""
-animeName = "kimetsu no yaiba"
+animeName = "Shigatsu wa Kimi no Uso"
 
 r = requests.get('https://jkanime.net/ajax/ajax_search?q=' + animeName)
 
@@ -23,11 +32,13 @@ r = requests.get("https://jkanime.net//ajax/pagination_episodes/" + animeId + "/
 episodesData = r.json()
 episodeNumberPageCore = 0
 
+animeName = animeName.lower()
+
 while episodesData != [] :
-    for i in range(1, 12) :
+    for i in range(1, 13) :
         driver = webdriver.Chrome(executable_path='C:\Program Files\Google\Chrome\Application\chromedriver.exe')
-        driver.get('https://jkanime.net/' + animeName.replace(" ", "-") + "/" + episodesData[i - 1]["number"])
-        print('https://jkanime.net/' + animeName.replace(" ", "-") + "/" + episodesData[i - 1]["number"])
+        driver.get('https://jkanime.net/' + refactorAnimeName(animeName) + "/" + episodesData[i - 1]["number"])
+        print('https://jkanime.net/' + refactorAnimeName(animeName) + "/" + episodesData[i - 1]["number"])
         driver.implicitly_wait(5)
         driver.switch_to.frame(driver.find_element_by_xpath('//iframe'))
         episodeUrl = driver.find_element_by_xpath('//div[@class="dplayer-video-wrap"]/video').get_attribute('src')
@@ -49,4 +60,6 @@ while episodesData != [] :
     r = requests.get("https://jkanime.net//ajax/pagination_episodes/" + animeId + "/" + str(page) + "/")
     episodesData = r.json()
 
-print(episodesData)
+
+driver.close()
+print("Finish data scrapping")

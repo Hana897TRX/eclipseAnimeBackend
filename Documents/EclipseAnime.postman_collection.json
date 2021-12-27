@@ -1,0 +1,163 @@
+{
+	"info": {
+		"_postman_id": "673e46b5-5486-4c72-aae8-c80cc56da8a1",
+		"name": "EclipseAnime",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "API",
+			"item": [
+				{
+					"name": "lastEpisodes",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseURL}}api/v1/lastEpisodes",
+							"host": [
+								"{{baseURL}}api"
+							],
+							"path": [
+								"v1",
+								"lastEpisodes"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "saveEpisode",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "episodeNumber",
+									"value": "5",
+									"type": "text"
+								},
+								{
+									"key": "episodeLanguage",
+									"value": "jp-es",
+									"type": "text"
+								},
+								{
+									"key": "episodeUrl",
+									"value": "https://00f74ba44b43734c3459fdf2a32d297dee45e4fe05-apidata.googleusercontent.com/download/storage/v1/b/ralentando/o/citrus%2F05.mp4?jk=AFshE3VdW0_A1eJgESv8OY1xuxa8z31AWX4wS_jxutydhj2Jz-70UxdbbSyVrnTx7UEt1FFAAgyaEXa0BRmkwkySIgxofi9-Aq0R4RAR6NLBp8q9BFh70eIxd9yFlvwaHLiPP_tH_nMIaGLuCxQe4QkyInJHcBs8TkLQijFVL9I5qhoK4abPRfsYpZM-4FJmqI92Sl15TGczjGNvRwqKtTYZQGTXFyjFN4Ke0HhKml9544-c__qxFoddyxHKRGxYT27XD8PxBPt4D7rwPZRpSRfqI09jP__7eOHi4Ky2BZq7nDK5fcvBGPa6P_Z1rqCodGyNt7LEdzPFZfKY1UU3m2QOeP3kBfezBut6KN-cTjR82s7ZWvKgObVPHrVq3laGWbhSZy6OMa1ZaxU8rm8oge2Jt5kjrn4Th2cc2ib51ajNh79LwOgnSwZ-E8bOvEZS6GhgKFvGgmSNm7u0jsmaXwkLwSPCWiFhkdj5c_cOpGG1bBi_VsJxziylujpifvkF1afCyLLjy2LR391tsFpOVCZI_P-bayIgOm3TUduNQT5Q2Ya_OxeAjj9EbXIWveTYO4lnpt-4uG_rLDiDDiLMnNMw6gPW3zRAQ5vK9XwJ4wABKBQEYoG1bkq2QhaTnDMH2sEvwEMz2w1cHzPXqd99vlev5Jar1hvwCUc5WulhO6zqbnOvaMxGSzinW0r8zHUP_FqMWM2fH7it0jPrC4Z4fetFgqDqDGG40cyWnpc_2-tzYoIGk0ZqCtcUn1qkEvAKOWBrxYOn1vLdPOqomb5j-ycAUYMDKs0CgZxCFluQpYw1rrj3k3M7uEmrFwrNBK9jo9ixWUOjcRN1QLG_IKGJaa411gKbHaDaYDReNtmEpkVB9O4lsZvXR6ESv3nrNDloWMKMRi_UgR-b7XsEcDQwCxb1taEjv_lZqjvfBCWcPloiLOdtmVNPwotw5vUJy54NbU4CQI5w5qCltxglw0HcodPL8uWegVGNEouEnK9Q4EaIUov7&isca=1\n",
+									"type": "text"
+								},
+								{
+									"key": "episodeDate",
+									"value": "2018-02-03",
+									"type": "text"
+								},
+								{
+									"key": "episodeImgPath",
+									"value": "https://cdn.jkanime.net/assets/images/animes/video/image_thumb/thumb_jkvideo_afcb07750cf5e47d985d2d17e590eaf6.jpg",
+									"type": "text"
+								},
+								{
+									"key": "animeName",
+									"value": "Citrus",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{baseURL}}api/v1/saveEpisodes",
+							"host": [
+								"{{baseURL}}api"
+							],
+							"path": [
+								"v1",
+								"saveEpisodes"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "SCRAPPING",
+			"item": [
+				{
+					"name": "getAnimeScrapper",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"url\" : \"https://ww3.animeflv.cc/anime/kimetsu-no-yaiba\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseURL}}scrap/v1/getAnime/?command=register&animeName=Shigatsu wa Kimi no Uso",
+							"host": [
+								"{{baseURL}}scrap"
+							],
+							"path": [
+								"v1",
+								"getAnime",
+								""
+							],
+							"query": [
+								{
+									"key": "command",
+									"value": "register"
+								},
+								{
+									"key": "animeName",
+									"value": "Shigatsu wa Kimi no Uso"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "searchAnimeEpisodes",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": null
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "baseURL",
+			"value": "http://localhost:5000/"
+		}
+	]
+}
