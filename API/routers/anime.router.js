@@ -37,6 +37,7 @@ router.post('/saveEpisodes', async (req, res) => {
         episodeNumber : req.body.episodeNumber,
         episodeLanguage : req.body.episodeLanguage,
         episodeUrl : req.body.episodeUrl,
+        alternaTitle : req.body.alternaTitle,
         episodeImgPath : req.body.episodeImgPath,
         episodeDate : req.body.episodeDate || Date.now()
     }

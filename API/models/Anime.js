@@ -7,6 +7,7 @@ var animeSchema = new Schema({
     coverUrl : String,
     splashArtUrl : String,
     animeDescription : String,
+    alternaTitle : String,
     publishDate: Date,
     status : String,
     likes : Number,

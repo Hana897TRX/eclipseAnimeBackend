@@ -14,7 +14,7 @@ class AnimeService {
   }
 
   async lastEpisodes() {
-    let episodes = await Episode.aggregate([{ $limit : 20 }]).sort({
+    let episodes = await Anime.aggregate([{ $limit : 20 }]).sort({
       lastUpdate: -1,
     }).exec()
 
@@ -109,6 +109,7 @@ class AnimeService {
   async saveAnime(animeData) {
     let animeRegister = new Anime({
       animeName: animeData.animeName.toLowerCase(),
+      alternaTitle : animeData.alternaTitle,
       animeTypeId: 1,
       coverUrl: animeData.coverUrl,
       splashArtUrl: animeData.splashArtUrl,
