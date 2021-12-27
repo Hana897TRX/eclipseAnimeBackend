@@ -5,7 +5,7 @@ const Episode = require("./../models/Episodes");
 class AnimeService {
   constructor() {
     this.connection = mongoose.connect(
-      "mongodb+srv://Hana897TRX:MThelegend1-@eclipseanime.ijyab.mongodb.net/EclipseAnimeDataBase?retryWrites=true&w=majority"
+      "mongodb+srv://EclipseAPI:Zlnvx2j0bthPy8LO@eclipseanime.ijyab.mongodb.net/EclipseAnimeDataBase?retryWrites=true&w=majority"
     );
   }
 
