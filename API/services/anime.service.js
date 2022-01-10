@@ -1,6 +1,7 @@
 const mongoose = require("mongoose");
 const Anime = require("./../models/Anime");
 const Episode = require("./../models/Episodes");
+const StatusCodes = require('./../Utils/StatusCodes')
 
 class AnimeService {
   constructor() {
@@ -13,6 +14,31 @@ class AnimeService {
     // TODO
   }
 
+  async getEpisodes(animeId) {
+    let animeInfoEpisode = await Episode.find({
+        animeId : animeId
+    },
+    {
+      "episodes" : 1
+    }
+    ).limit(1).exec()
+
+    if(animeInfoEpisode) {
+      return {
+        message : 'success',
+        code : StatusCodes.OK,
+        data : animeInfoEpisode
+      }
+    }
+    else {
+      return {
+        message : 'Episodes not found',
+        code : StatusCodes.OK,
+        data : []
+      }
+    }
+  }
+
   async lastEpisodes() {
     let episodes = await Anime.aggregate([{ $limit : 20 }]).sort({
       lastUpdate: -1,
@@ -20,13 +46,16 @@ class AnimeService {
 
     if(episodes) {
         return {
-            message : 'sucess',
-            data : episodes
+            message: 'success',
+            code: StatusCodes.OK,
+            data: episodes
         }
     }
     else {
         return {
-            error : 'error',
+          message : 'error getting last episodes data',
+          code: StatusCodes.ErrorGettingData,
+          data: [],
         }
     }
   }
@@ -59,16 +88,19 @@ class AnimeService {
       if (result["modifiedCount"] > 0) {
         return {
           message: "success",
+          code: StatusCodes.OK,
           data: "episodes updated",
         };
       } else {
         return {
-          error: "error",
-          data: "error while updating episodes",
+          message: "error while updating episodes",
+          code : StatusCodes.ErrorWhileUpdating,
+          data: [],
         };
       }
     } else {
       let anime = await Anime.find({ animeName: animeName }).exec();
+      
       if (anime.length > 0) {
         let newEpisodeRecord = new Episode({
           animeName: animeName,
@@ -87,20 +119,22 @@ class AnimeService {
 
         if (result) {
           return {
-            message: "success",
-            data: "Created anime episodes succefully",
+            message: "Created anime episodes succefully",
+            code: StatusCodes.OK,
+            data: result,
           };
         } else {
           return {
-            error: "error",
-            data: "error while updating episodes",
+            message: "error while creating episode register.",
+            code:  StatusCodes.AnimeMustBeRegister,
+            data: [],
           };
         }
       } else {
-        // Return error
         return {
-          error: "error",
-          data: "Error, you must register an anime before register episodes",
+          message: "Error, you must register an anime before register episodes",
+          code: StatusCodes.AnimeMustBeRegister,
+          data: [],
         };
       }
     }
@@ -125,15 +159,17 @@ class AnimeService {
     animeRegister.save((error, anime) => {
       if (error)
         return {
-          error: "error",
-          data: error,
+          message: "error :" + error,
+          code: StatusCodes.AnimeSaveError,
+          data: [],
         };
       console.log(anime.animeName + "Anime saved");
     });
 
     return {
-      message: "success",
-      data: "Anime saved",
+      message: "Anime saved",
+      code: StatusCodes.OK,
+      data: [],
     };
   }
 
@@ -147,12 +183,14 @@ class AnimeService {
     if(animes) {
         return {
             message : 'success',
+            code: StatusCodes.OK,
             data : animes
         }
     }
     else {
         return {
             message : 'success',
+            code: StatusCodes.OK,
             data : []
         }
     }

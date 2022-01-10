@@ -1,6 +1,6 @@
 const express = require('express')
 const app = express()
-const port = 5000
+const port = 3000
 const routerApi = require('./routers')
 
 app.use(express.json())

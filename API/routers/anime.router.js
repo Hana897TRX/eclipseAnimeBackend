@@ -1,6 +1,7 @@
 const express = require('express')
 const AnimeService = require('../services/anime.service')
 const router = express.Router()
+const StatusCodes = require('./../Utils/StatusCodes')
 
 const service = new AnimeService()
 
@@ -52,6 +53,24 @@ router.get('/lastEpisodes', async (req, res) => {
     const response = await service.lastEpisodes()
 
     res.status(201).send(response)
+})
+
+router.get('/getEpisodes/:id', async (req, res) => {
+    const animeId = req.params.id
+    console.log(animeId)
+    if(animeId) {
+        const response = await service.getEpisodes(animeId)
+        console.log(response)
+
+        res.status(201).send(response)
+    }
+    else {
+        res.status(201).json({
+            message : "Error, animeId not sent",
+            code : StatusCodes.AnimeIdNotSent,
+            data : []
+        })
+    }
 })
 
 module.exports = router
